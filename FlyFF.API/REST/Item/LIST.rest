@@ -1,0 +1,7 @@
+### Base URL
+@host = http://localhost:5000
+
+### Documented Responses
+# 200 OK
+# 204 No Content
+GET {{host}}/api/items

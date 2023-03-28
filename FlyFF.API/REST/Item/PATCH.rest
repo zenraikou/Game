@@ -1,0 +1,42 @@
+### Replace 'uuid' with real GUID
+@guid = uuid
+
+### Base URL
+@host = http://localhost:5000
+
+### Documented Responses
+# 204 No Content
+# 404 Not Found
+PATCH {{host}}/api/item/patch/{{guid}}
+Content-Type: application/json
+
+[
+    {
+        "op": "replace",
+        "path": "/name",
+        "value": "Valley of the Risen"
+    },
+    {
+        "op": "replace",
+        "path": "/description",
+        "value": "Valley of the Risen is the continent where skilled adventurers camps. The strong Masquerpets are here. \n\nThere is no town or city here, the nearest town or city is Eillun or The Fallen Leaf Camp."
+    }
+]
+
+### Documented Response
+# 400 Bad Request
+PATCH {{host}}/api/item/patch/{{guid}}
+Content-Type: application/json
+
+[
+    {
+        "op": "replace",
+        "path": "/name",
+        "value": ""
+    },
+    {
+        "op": "replace",
+        "path": "/description",
+        "value": ""
+    }
+]

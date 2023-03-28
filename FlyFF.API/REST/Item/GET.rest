@@ -1,0 +1,10 @@
+### Replace 'uuid' with real GUID
+@guid = uuid
+
+### Base URL
+@host = http://localhost:5000
+
+### Documented Responses
+# 200 OK
+# 404 Not Found
+GET {{host}}/api/item/{{guid}}

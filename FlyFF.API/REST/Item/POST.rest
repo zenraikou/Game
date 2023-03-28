@@ -1,0 +1,22 @@
+### Base URL
+@host = http://localhost:5000
+
+### Documented Response
+# 201 Created
+POST  {{host}}/api/item/create
+Content-Type: application/json
+
+{
+    "name": "Shaduwar",
+    "description": "Shaduwar is the contininent above Darkon. There are no cities or towns in Shaduwar but there is a camp called \"The Fallen Leaf Camp\". Shaduwar has many dangerous mobs. \n\nTheir National Motto is \"Got Garlic\" and their National Anthem is \"Ballad Of The Undead\"."
+}
+
+### Documented Response
+# 400 Bad Request
+POST  {{host}}/api/item/create
+Content-Type: application/json
+
+{
+    "name": "",
+    "description": ""
+}

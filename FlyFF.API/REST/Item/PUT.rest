@@ -1,0 +1,26 @@
+### Replace 'uuid' with real GUID
+@guid = a7807029-66c3-4f15-aa5a-ddbef3cd8d13
+
+### Base URL
+@host = http://localhost:5000
+
+### Documented Responses
+# 204 No Content
+# 404 Not Found
+PUT {{host}}/api/item/update/{{guid}}
+Content-Type: application/json
+
+{
+    "name": "Bahara Desert",
+    "description": "The arid and perilous Bahara Desert lies to the far west of the Kaillun Grasslands. Connected to the rest of the world by only a small mysterious tunnel, this desolate expanse is more than capable of swallowing would be adventurers whole; their fate is only to be lost forever in her sands."
+}
+
+### Documented Response
+# 400 Bad Request
+PUT {{host}}/api/item/update/{{guid}}
+Content-Type: application/json
+
+{
+    "name": "",
+    "description": ""
+}
