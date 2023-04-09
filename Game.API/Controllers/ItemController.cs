@@ -55,8 +55,10 @@ public class ItemController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Item>> Post([FromBody] Item item)
     {
+        // No need to check if the model is valid since we're using '[ApiController]' attribute.
+        // This action method won't execute if model is not valid.
+        // If model is not valid, it will automatically produce a response type of Status Code 400 (Bad Request).
         await _context.PostAsync(item);
-
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
     }
 
