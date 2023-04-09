@@ -1,5 +1,5 @@
 ﻿using Game.API.Data;
-using Game.API.Models.DTOs;
+using Game.API.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,19 +9,21 @@ namespace Game.API.Controllers;
 [Route("api/[controller]")]
 public class ItemController : ControllerBase
 {
+    private readonly IItemRepository _context;
     private readonly ILogger<ItemController> _logger;
 
-    public ItemController(ILogger<ItemController> logger)
+    public ItemController(IItemRepository context, ILogger<ItemController> logger)
     {
+        _context = context;
         _logger = logger;
     }
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("~/api/[controller]s")]
-    public ActionResult<List<ItemDTO>> GetAll()
+    public async Task<ActionResult<IEnumerable<Item>>> GetAll()
     {
-        var items = DB.Items;
+        var items = await _context.GetAllAsync();
 
         if (items.Any() is false)
         {
@@ -35,26 +37,25 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("{id}")]
-    public ActionResult<ItemDTO> Get(int id)
+    public async Task<ActionResult<Item>> Get(Guid id)
     {
-        var item = DB.Items.Find(i => i.Id == id);
+        var item = await _context.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
             return NotFound();
         }
 
+        _logger.LogInformation("Item fetched successfully.");
         return Ok(item);
     }
 
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    //[ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult<ItemDTO> Post([FromBody] ItemDTO item) // change ItemDTO to Item when using AutoMapper
+    public async Task<ActionResult<Item>> Post([FromBody] Item item)
     {
-        DB.Items.Add(item);
-        // save changes when using ef core if needed
+        await _context.PostAsync(item);
 
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
     }
@@ -63,9 +64,9 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] ItemDTO item) // change ItemDTO to Item when using AutoMapper
+    public async Task<IActionResult> Put(Guid id, [FromBody] Item item)
     {
-        var updateItem = DB.Items.Find(i => i.Id == id);
+        var updateItem = await _context.GetAsync(i => i.Id == id);
 
         if (updateItem is null)
         {
@@ -74,7 +75,8 @@ public class ItemController : ControllerBase
 
         updateItem.Name = item.Name;
         updateItem.Description = item.Description;
-        // save changes when using ef core if needed
+
+        await _context.UpdateAsync(updateItem);
 
         return NoContent();
     }
@@ -82,18 +84,17 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    //[ValidateAntiForgeryToken]
     [HttpPatch("{id}")]
-    public IActionResult Patch(int id, [FromBody] JsonPatchDocument<ItemDTO> patchDoc) // change ItemDTO to Item when using AutoMapper
+    public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<Item> patchDoc)
     {
-        var updateItem = DB.Items.Find(i => i.Id == id);
+        var updateItem = await _context.GetAsync(i => i.Id == id, tracked: false);
 
         if (updateItem is null)
         {
             return NotFound();
         }
 
-        var item = new ItemDTO()
+        var item = new Item()
         {
             Name = updateItem.Name,
             Description = updateItem.Description
@@ -109,23 +110,24 @@ public class ItemController : ControllerBase
         updateItem.Name = item.Name;
         updateItem.Description = item.Description;
 
+        await _context.UpdateAsync(updateItem);
+
         return NoContent();
     }
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        var item = DB.Items.Find(i => i.Id == id);
+        var item = await _context.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
             return NotFound();
         }
 
-        DB.Items.Remove(item);
-        // save changes when using ef core if needed
+        await _context.DeleteAsync(item);
 
         return NoContent();
     }

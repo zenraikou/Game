@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Game.API.Models.DTOs;
 
 public record ItemDTO
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public Guid Id { get; private init; } = Guid.NewGuid();
     [Required]
     public required string Name { get; set; }
     [Required]
