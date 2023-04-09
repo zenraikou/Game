@@ -1,5 +1,5 @@
 ### Replace 'uuid' with real GUID
-@guid = a7807029-66c3-4f15-aa5a-ddbef3cd8d13
+@guid = uuid
 
 ### Base URL
 @host = http://localhost:5000
@@ -7,7 +7,7 @@
 ### Documented Responses
 # 204 No Content
 # 404 Not Found
-PUT {{host}}/api/item/update/{{guid}}
+PUT {{host}}/api/item/{{guid}}
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 ### Documented Response
 # 400 Bad Request
-PUT {{host}}/api/item/update/{{guid}}
+PUT {{host}}/api/item/{{guid}}
 Content-Type: application/json
 
 {

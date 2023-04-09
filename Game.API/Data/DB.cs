@@ -1,6 +1,6 @@
-﻿using FlyFF.API.Models.DTOs;
+﻿using Game.API.Models.DTOs;
 
-namespace FlyFF.API.Data;
+namespace Game.API.Data;
 
 public static class DB
 {

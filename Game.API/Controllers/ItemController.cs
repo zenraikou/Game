@@ -1,18 +1,25 @@
-﻿using FlyFF.API.Data;
-using FlyFF.API.Models.DTOs;
+﻿using Game.API.Data;
+using Game.API.Models.DTOs;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FlyFF.API.Controllers;
+namespace Game.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class ItemController : ControllerBase
 {
+    private readonly ILogger<ItemController> _logger;
+
+    public ItemController(ILogger<ItemController> logger)
+    {
+        _logger = logger;
+    }
+
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("~/api/[controller]s")]
-    public ActionResult<List<ItemDTO>> List()
+    public ActionResult<List<ItemDTO>> GetAll()
     {
         var items = DB.Items;
 
@@ -21,15 +28,16 @@ public class ItemController : ControllerBase
             return NoContent();
         }
 
+        _logger.LogInformation("Items fetched successfully.");
         return Ok(items);
     }
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("{id}")]
-    public ActionResult<ItemDTO> Get(Guid id)
+    public ActionResult<ItemDTO> Get(int id)
     {
-        var item = DB.Items.Find(v => v.Id == id);
+        var item = DB.Items.Find(i => i.Id == id);
 
         if (item is null)
         {
@@ -42,7 +50,7 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     //[ValidateAntiForgeryToken]
-    [HttpPost("create")]
+    [HttpPost]
     public ActionResult<ItemDTO> Post([FromBody] ItemDTO item) // change ItemDTO to Item when using AutoMapper
     {
         DB.Items.Add(item);
@@ -54,62 +62,62 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpPut("update/{id}")]
-    public IActionResult Put(Guid id, [FromBody] ItemDTO item) // change ItemDTO to Item when using AutoMapper
+    [HttpPut("{id}")]
+    public IActionResult Put(int id, [FromBody] ItemDTO item) // change ItemDTO to Item when using AutoMapper
     {
-        var itemToUpdate = DB.Items.Find(v => v.Id == id);
+        var updateItem = DB.Items.Find(i => i.Id == id);
 
-        if (itemToUpdate is null)
+        if (updateItem is null)
         {
             return NotFound();
         }
 
-        itemToUpdate.Name = item.Name;
-        itemToUpdate.Description = item.Description;
+        updateItem.Name = item.Name;
+        updateItem.Description = item.Description;
         // save changes when using ef core if needed
 
         return NoContent();
     }
 
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     //[ValidateAntiForgeryToken]
-    [HttpPatch("patch/{id}")]
-    public IActionResult Patch(Guid id, JsonPatchDocument<ItemDTO> patchDoc) // change ItemDTO to Item when using AutoMapper
+    [HttpPatch("{id}")]
+    public IActionResult Patch(int id, [FromBody] JsonPatchDocument<ItemDTO> patchDoc) // change ItemDTO to Item when using AutoMapper
     {
-        var existingItem = DB.Items.Find(v => v.Id == id);
+        var updateItem = DB.Items.Find(i => i.Id == id);
 
-        if (existingItem is null)
+        if (updateItem is null)
         {
             return NotFound();
         }
 
-        var itemToPatch = new ItemDTO
+        var item = new ItemDTO()
         {
-            Name = existingItem.Name,
-            Description = existingItem.Description
+            Name = updateItem.Name,
+            Description = updateItem.Description
         };
         
-        patchDoc.ApplyTo(itemToPatch, ModelState);
+        patchDoc.ApplyTo(item, ModelState);
 
-        if (!TryValidateModel(itemToPatch))
+        if (TryValidateModel(item) is false)
         {
             return BadRequest(ModelState);
         }
 
-        existingItem.Name = itemToPatch.Name;
-        existingItem.Description = itemToPatch.Description;
+        updateItem.Name = item.Name;
+        updateItem.Description = item.Description;
 
         return NoContent();
     }
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpDelete("delete/{id}")]
-    public IActionResult Delete(Guid id)
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int id)
     {
-        var item = DB.Items.Find(v => v.Id == id);
+        var item = DB.Items.Find(i => i.Id == id);
 
         if (item is null)
         {
