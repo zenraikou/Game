@@ -29,6 +29,7 @@ public class ItemController : ControllerBase
 
         if (items.Any() is false)
         {
+            _logger.LogInformation("Items are currently empty.");
             return NoContent();
         }
 
@@ -45,6 +46,7 @@ public class ItemController : ControllerBase
 
         if (item is null)
         {
+            _logger.LogInformation("Item does not exist.");
             return NotFound();
         }
 
@@ -57,11 +59,10 @@ public class ItemController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ItemDTO>> Post([FromBody] ItemDTO itemDTO)
     {
-        // No need to check if the model is valid since we're using '[ApiController]' attribute.
-        // This action method won't execute if model is not valid.
-        // If model is not valid, it will automatically produce a response type of Status Code 400 (Bad Request).
         var item = itemDTO.Adapt<Item>();
         await _context.PostAsync(item);
+
+        _logger.LogInformation("Item created successfully.");
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
     }
 
@@ -75,13 +76,14 @@ public class ItemController : ControllerBase
 
         if (item is null)
         {
+            _logger.LogInformation("Item does not exist.");
             return NotFound();
         }
 
         item = itemDTO.Adapt(item);
-  
         await _context.UpdateAsync(item);
 
+        _logger.LogInformation("Item updated successfully.");
         return NoContent();
     }
 
@@ -95,6 +97,7 @@ public class ItemController : ControllerBase
 
         if (item is null)
         {
+            _logger.LogInformation("Item does not exist.");
             return NotFound();
         }
 
@@ -104,13 +107,14 @@ public class ItemController : ControllerBase
 
         if (TryValidateModel(itemDTO) is false)
         {
+            _logger.LogInformation("Item is invalid.");
             return BadRequest(ModelState);
         }
 
         item = itemDTO.Adapt(item);
-
         await _context.UpdateAsync(item);
 
+        _logger.LogInformation("Item updated successfully.");
         return NoContent();
     }
 
@@ -123,11 +127,13 @@ public class ItemController : ControllerBase
 
         if (item is null)
         {
+            _logger.LogInformation("Item does not exist.");
             return NotFound();
         }
 
         await _context.DeleteAsync(item);
 
+        _logger.LogInformation("Item deleted successfully.");
         return NoContent();
     }
 }
