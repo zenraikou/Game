@@ -1,14 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Game.API.Data.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Game.API.Data;
+namespace Game.API.Data.Repository;
 
-public class GenericRepository<T> : IGenericRepository<T> where T : class
+public class Repository<T> : IRepository<T> where T : class
 {
     private readonly GameContext _context;
     private readonly DbSet<T> _db;
 
-    public GenericRepository(GameContext context)
+    public Repository(GameContext context)
     {
         _context = context;
         _db = _context.Set<T>();

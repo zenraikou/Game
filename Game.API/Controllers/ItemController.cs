@@ -1,4 +1,4 @@
-﻿using Game.API.Data;
+﻿using Game.API.Data.IRepository;
 using Game.API.Models;
 using Game.API.Models.DTOs;
 using Mapster;

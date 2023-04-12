@@ -1,9 +1,8 @@
-﻿using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Game.API.Data;
+namespace Game.API.Data.IRepository;
 
-public interface IGenericRepository<T> where T : class
+public interface IRepository<T> where T : class
 {
     //Task<IList<T>> FindAll(Expression<Func<T, bool>>? expression, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy, List<string>? includes);
     //Task<T> Find(Expression<Func<T, bool>> expression, List<string>? includes);
