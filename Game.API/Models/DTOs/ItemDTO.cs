@@ -1,14 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Game.API.Models.Enums;
+using Mapster;
+using System.ComponentModel.DataAnnotations;
 
 namespace Game.API.Models.DTOs;
 
-public record ItemDTO
+public class ItemDTO
 {
-    [Key]
+    //[Key]
     //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Id { get; private init; } = Guid.NewGuid();
+    //public int Id { get; set; }
+    [Key]
+    [AdaptIgnore(MemberSide.Source)]
+    public Guid Id { get; private init; }
     [Required]
     public required string Name { get; set; }
     [Required]
     public required string Description { get; set; }
+    [Required]
+    public required Category Category { get; set; }
+    [Required]
+    public required Element Element { get; set; }
+    [Required]
+    public required decimal Price { get; set; }
 }

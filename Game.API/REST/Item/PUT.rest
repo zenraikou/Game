@@ -1,5 +1,5 @@
-### Replace 'uuid' with real GUID
-@guid = uuid
+### Replace 'placeholder' with an existing GUID
+@guid = placeholder
 
 ### Base URL
 @host = http://localhost:5000
@@ -11,8 +11,11 @@ PUT {{host}}/api/item/{{guid}}
 Content-Type: application/json
 
 {
-    "name": "Bahara Desert",
-    "description": "The arid and perilous Bahara Desert lies to the far west of the Kaillun Grasslands. Connected to the rest of the world by only a small mysterious tunnel, this desolate expanse is more than capable of swallowing would be adventurers whole; their fate is only to be lost forever in her sands."
+    "name": "Crimson Guard",
+    "description": "An armor crafted from the scales of a Pure Crimson Dragon.",
+    "category": "4",
+    "element": "1",
+    "price": "5.99"
 }
 
 ### Documented Response

@@ -1,5 +1,5 @@
-### Replace 'uuid' with real GUID
-@guid = uuid
+### Replace 'placeholder' with an existing GUID
+@guid = placeholder
 
 ### Base URL
 @host = http://localhost:5000
@@ -14,12 +14,27 @@ Content-Type: application/json
     {
         "op": "replace",
         "path": "/name",
-        "value": "Valley of the Risen"
+        "value": "Black King Bar"
     },
     {
         "op": "replace",
         "path": "/description",
-        "value": "Valley of the Risen is the continent where skilled adventurers camps. The strong Masquerpets are here. \n\nThere is no town or city here, the nearest town or city is Eillun or The Fallen Leaf Camp."
+        "value": "An armor crafted from the scales of a Pure Gold Dragon."
+    },
+    {
+        "op": "replace",
+        "path": "/category",
+        "value": "4"
+    },
+    {
+        "op": "replace",
+        "path": "/element",
+        "value": "4"
+    },
+    {
+        "op": "replace",
+        "path": "/price",
+        "value": "6.99"
     }
 ]
 
@@ -37,6 +52,21 @@ Content-Type: application/json
     {
         "op": "replace",
         "path": "/description",
+        "value": ""
+    },
+    {
+        "op": "replace",
+        "path": "/category",
+        "value": ""
+    },
+    {
+        "op": "replace",
+        "path": "/element",
+        "value": ""
+    },
+    {
+        "op": "replace",
+        "path": "/price",
         "value": ""
     }
 ]

@@ -1,5 +1,5 @@
-### Replace 'uuid' with real GUID
-@guid = uuid
+### Replace 'placeholder' with an existing GUID
+@guid = placeholder
 
 ### Base URL
 @host = http://localhost:5000

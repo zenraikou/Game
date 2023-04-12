@@ -1,5 +1,7 @@
 ﻿using Game.API.Data;
 using Game.API.Models;
+using Game.API.Models.DTOs;
+using Mapster;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +23,7 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("~/api/[controller]s")]
-    public async Task<ActionResult<IEnumerable<Item>>> GetAll()
+    public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAll()
     {
         var items = await _context.GetAllAsync();
 
@@ -31,13 +33,13 @@ public class ItemController : ControllerBase
         }
 
         _logger.LogInformation("Items fetched successfully.");
-        return Ok(items);
+        return Ok(items.Adapt<IEnumerable<ItemDTO>>());
     }
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("{id}")]
-    public async Task<ActionResult<Item>> Get(Guid id)
+    public async Task<ActionResult<ItemDTO>> Get(Guid id)
     {
         var item = await _context.GetAsync(i => i.Id == id);
 
@@ -47,17 +49,18 @@ public class ItemController : ControllerBase
         }
 
         _logger.LogInformation("Item fetched successfully.");
-        return Ok(item);
+        return Ok(item.Adapt<ItemDTO>());
     }
 
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [HttpPost]
-    public async Task<ActionResult<Item>> Post([FromBody] Item item)
+    public async Task<ActionResult<ItemDTO>> Post([FromBody] ItemDTO itemDTO)
     {
         // No need to check if the model is valid since we're using '[ApiController]' attribute.
         // This action method won't execute if model is not valid.
         // If model is not valid, it will automatically produce a response type of Status Code 400 (Bad Request).
+        var item = itemDTO.Adapt<Item>();
         await _context.PostAsync(item);
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
     }
@@ -66,19 +69,18 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, [FromBody] Item item)
+    public async Task<IActionResult> Put(Guid id, [FromBody] ItemDTO itemDTO)
     {
-        var updateItem = await _context.GetAsync(i => i.Id == id);
+        var item = await _context.GetAsync(i => i.Id == id);
 
-        if (updateItem is null)
+        if (item is null)
         {
             return NotFound();
         }
 
-        updateItem.Name = item.Name;
-        updateItem.Description = item.Description;
-
-        await _context.UpdateAsync(updateItem);
+        item = itemDTO.Adapt(item);
+  
+        await _context.UpdateAsync(item);
 
         return NoContent();
     }
@@ -87,32 +89,27 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPatch("{id}")]
-    public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<Item> patchDoc)
+    public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<ItemDTO> patchDoc)
     {
-        var updateItem = await _context.GetAsync(i => i.Id == id, tracked: false);
+        var item = await _context.GetAsync(i => i.Id == id, tracked: false);
 
-        if (updateItem is null)
+        if (item is null)
         {
             return NotFound();
         }
 
-        var item = new Item()
-        {
-            Name = updateItem.Name,
-            Description = updateItem.Description
-        };
-        
-        patchDoc.ApplyTo(item, ModelState);
+        var itemDTO = item.Adapt<ItemDTO>();
+  
+        patchDoc.ApplyTo(itemDTO, ModelState);
 
-        if (TryValidateModel(item) is false)
+        if (TryValidateModel(itemDTO) is false)
         {
             return BadRequest(ModelState);
         }
 
-        updateItem.Name = item.Name;
-        updateItem.Description = item.Description;
+        item = itemDTO.Adapt(item);
 
-        await _context.UpdateAsync(updateItem);
+        await _context.UpdateAsync(item);
 
         return NoContent();
     }

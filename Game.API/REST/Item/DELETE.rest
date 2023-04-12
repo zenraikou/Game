@@ -1,5 +1,5 @@
-### Replace 'uuid' with real GUID
-@guid = uuid
+### Replace 'placeholder' with an existing GUID
+@id = placeholder
 
 ### Base URL
 @host = http://localhost:5000
@@ -7,4 +7,4 @@
 ### Documented Responses
 # 204 No Content
 # 404 Not Found
-DELETE  {{host}}/api/item/{{guid}}
+DELETE  {{host}}/api/item/{{id}}

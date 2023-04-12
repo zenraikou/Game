@@ -17,7 +17,7 @@ namespace Game.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -28,13 +28,22 @@ namespace Game.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Element")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
@@ -46,31 +55,43 @@ namespace Game.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0a0ab9b7-2164-47a3-b665-b3a69d544e6f"),
+                            Id = new Guid("1ebc725c-b1ec-43a4-8be8-a700a17b769d"),
+                            Category = 0,
                             Description = "A dagger crafted from the tooth of a Pure Silver Dragon.",
+                            Element = 4,
                             Name = "Dagon",
-                            Timestamp = new DateTime(2023, 4, 9, 13, 23, 39, 45, DateTimeKind.Utc).AddTicks(6112)
+                            Price = 0.99m,
+                            Timestamp = new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6224)
                         },
                         new
                         {
-                            Id = new Guid("30d51435-fd1b-4d94-a2ea-b848df16b74c"),
+                            Id = new Guid("9334aa54-06f3-4f0e-a708-39cdd532bbe0"),
+                            Category = 1,
                             Description = "A sword crafted from the talon of a Pure Silver Dragon.",
+                            Element = 4,
                             Name = "Yasha",
-                            Timestamp = new DateTime(2023, 4, 9, 13, 23, 39, 45, DateTimeKind.Utc).AddTicks(6127)
+                            Price = 1.99m,
+                            Timestamp = new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6243)
                         },
                         new
                         {
-                            Id = new Guid("e1fab68c-cce8-40bf-9f42-e37f9f05fe61"),
+                            Id = new Guid("b85f4500-d4e1-4a86-8c9a-495725d00d7d"),
+                            Category = 2,
                             Description = "A bow crafted from the wing of a Pure Silver Dragon.",
+                            Element = 4,
                             Name = "Buriza",
-                            Timestamp = new DateTime(2023, 4, 9, 13, 23, 39, 45, DateTimeKind.Utc).AddTicks(6182)
+                            Price = 2.99m,
+                            Timestamp = new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6302)
                         },
                         new
                         {
-                            Id = new Guid("7fcf4f3b-01c6-4b92-8a57-2739144b29a3"),
-                            Description = "An armor crafted from the scales of a Pure Silver Dragon.",
+                            Id = new Guid("69739a03-4441-4e51-a2dd-a611848ffbe3"),
+                            Category = 3,
+                            Description = "A shield crafted from the scales of a Pure Silver Dragon.",
+                            Element = 4,
                             Name = "Vanguard",
-                            Timestamp = new DateTime(2023, 4, 9, 13, 23, 39, 45, DateTimeKind.Utc).AddTicks(6187)
+                            Price = 3.99m,
+                            Timestamp = new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6307)
                         });
                 });
 #pragma warning restore 612, 618

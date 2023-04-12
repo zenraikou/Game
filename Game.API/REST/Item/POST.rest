@@ -7,8 +7,11 @@ POST  {{host}}/api/item
 Content-Type: application/json
 
 {
-    "name": "Shaduwar",
-    "description": "Shaduwar is the contininent above Darkon. There are no cities or towns in Shaduwar but there is a camp called \"The Fallen Leaf Camp\". Shaduwar has many dangerous mobs. \n\nTheir National Motto is \"Got Garlic\" and their National Anthem is \"Ballad Of The Undead\"."
+    "name": "Cuirass",
+    "description": "An armor crafted from the scales of a Pure Silver Dragon.",
+    "category": "4",
+    "element": "4",
+    "price": "4.99"
 }
 
 ### Documented Response
@@ -18,5 +21,8 @@ Content-Type: application/json
 
 {
     "name": "",
-    "description": ""
+    "description": "",
+    "category": "",
+    "element": "",
+    "price": ""
 }
