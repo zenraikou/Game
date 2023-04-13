@@ -93,7 +93,6 @@ public class ItemController : ControllerBase
     [HttpPatch("{id}")]
     public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<ItemDTO> patchDoc)
     {
-        // var item = await _context.GetAsync(i => i.Id == id, tracked: false);
         var item = await _context.GetAsync(i => i.Id == id);
 
         if (item is null)
