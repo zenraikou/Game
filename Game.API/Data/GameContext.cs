@@ -10,7 +10,7 @@ public class GameContext : DbContext
     { 
     }
 
-    public DbSet<Item>? Items { get; set; }
+    public DbSet<Item> Items => Set<Item>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
