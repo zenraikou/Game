@@ -25,5 +25,8 @@ Content-Type: application/json
 
 {
     "name": "",
-    "description": ""
+    "description": "",
+    "category": "",
+    "element": "",
+    "price": ""
 }
