@@ -8,7 +8,7 @@ public class GameContext : DbContext
 {
     public GameContext(DbContextOptions<GameContext> options) : base(options) { }
 
-    public DbSet<Item> Items { get; set; }
+    public DbSet<Item>? Items { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
