@@ -15,29 +15,29 @@ public class Repository<T> : IRepository<T> where T : class
         _db = _context.Set<T>();
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? expression, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy, List<string>? includes)
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? expression/*, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy, List<string>? includes*/)
     {
        IQueryable<T> query = _db;
 
-       if (expression is not null)
-       {
-           query = query.Where(expression);
-       }
+        /*if (expression is not null)
+        {
+            query = query.Where(expression);
+        }
 
-       if (includes is not null)
-       {
-            query = includes.Aggregate(query, (current, include) => current.Include(include));
-       }
+        if (includes is not null)
+        {
+             query = includes.Aggregate(query, (current, include) => current.Include(include));
+        }
 
-       if (orderBy is not null)
-       {
-           query = orderBy(query);
-       }
+        if (orderBy is not null)
+        {
+            query = orderBy(query);
+        }*/
 
        return await query.AsNoTracking().ToListAsync();
     }
 
-    public async Task<T?> GetAsync(Expression<Func<T, bool>>? expression, List<string>? includes)
+    public async Task<T?> GetAsync(Expression<Func<T, bool>>? expression/*, List<string>? includes*/)
     {
         IQueryable<T> query = _db;
 
@@ -46,10 +46,10 @@ public class Repository<T> : IRepository<T> where T : class
             query = query.Where(expression);
         }
 
-        if (includes is not null)
+        /*if (includes is not null)
         {
             query = includes.Aggregate(query, (current, include) => current.Include(include));
-        }
+        }*/
 
         return await query.AsNoTracking().FirstOrDefaultAsync();
     }
@@ -57,18 +57,15 @@ public class Repository<T> : IRepository<T> where T : class
     public async Task PostAsync(T entity)
     {
         await _db.AddAsync(entity);
-        await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(T entity)
+    public void Update(T entity)
     {
         _db.Update(entity);
-        await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(T entity)
+    public void Delete(T entity)
     {
         _db.Remove(entity);
-        await _context.SaveChangesAsync();
     }
 }
