@@ -11,12 +11,12 @@ namespace Game.API.Controllers;
 [Route("api/[controller]")]
 public class ItemController : ControllerBase
 {
-    private readonly IItemRepository _context;
+    private readonly IItemRepository _repository;
     private readonly ILogger<ItemController> _logger;
 
-    public ItemController(IItemRepository context, ILogger<ItemController> logger)
+    public ItemController(IItemRepository repository, ILogger<ItemController> logger)
     {
-        _context = context;
+        _repository = repository;
         _logger = logger;
     }
 
@@ -25,7 +25,7 @@ public class ItemController : ControllerBase
     [HttpGet("~/api/[controller]s")]
     public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAll()
     {
-        var items = await _context.GetAllAsync();
+        var items = await _repository.GetAllAsync();
 
         if (items.Any() is false)
         {
@@ -42,7 +42,7 @@ public class ItemController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ItemDTO>> Get(Guid id)
     {
-        var item = await _context.GetAsync(i => i.Id == id);
+        var item = await _repository.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
@@ -60,10 +60,10 @@ public class ItemController : ControllerBase
     public async Task<ActionResult<ItemDTO>> Post([FromBody] ItemDTO itemDTO)
     {
         var item = itemDTO.Adapt<Item>();
-        await _context.PostAsync(item);
+        await _repository.PostAsync(item);
 
         _logger.LogInformation("Item created successfully.");
-        return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
+        return CreatedAtAction(nameof(Get), new { id = item.Id }, item.Adapt<ItemDTO>());
     }
 
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -72,7 +72,7 @@ public class ItemController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(Guid id, [FromBody] ItemDTO itemDTO)
     {
-        var item = await _context.GetAsync(i => i.Id == id);
+        var item = await _repository.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
@@ -81,7 +81,7 @@ public class ItemController : ControllerBase
         }
 
         item = itemDTO.Adapt(item);
-        await _context.UpdateAsync(item);
+        await _repository.UpdateAsync(item);
 
         _logger.LogInformation("Item updated successfully.");
         return NoContent();
@@ -93,7 +93,7 @@ public class ItemController : ControllerBase
     [HttpPatch("{id}")]
     public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<ItemDTO> patchDoc)
     {
-        var item = await _context.GetAsync(i => i.Id == id);
+        var item = await _repository.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
@@ -102,7 +102,6 @@ public class ItemController : ControllerBase
         }
 
         var itemDTO = item.Adapt<ItemDTO>();
-  
         patchDoc.ApplyTo(itemDTO, ModelState);
 
         if (TryValidateModel(itemDTO) is false)
@@ -112,7 +111,7 @@ public class ItemController : ControllerBase
         }
 
         item = itemDTO.Adapt(item);
-        await _context.UpdateAsync(item);
+        await _repository.UpdateAsync(item);
 
         _logger.LogInformation("Item updated successfully.");
         return NoContent();
@@ -123,7 +122,7 @@ public class ItemController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var item = await _context.GetAsync(i => i.Id == id);
+        var item = await _repository.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
@@ -131,7 +130,7 @@ public class ItemController : ControllerBase
             return NotFound();
         }
 
-        await _context.DeleteAsync(item);
+        await _repository.DeleteAsync(item);
         
         _logger.LogInformation("Item deleted successfully.");
         return NoContent();

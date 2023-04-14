@@ -26,10 +26,7 @@ public class Repository<T> : IRepository<T> where T : class
 
        if (includes is not null)
        {
-           foreach (var property in includes)
-           {
-               query = query.Include(property);
-           }
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
        }
 
        if (orderBy is not null)
@@ -51,10 +48,7 @@ public class Repository<T> : IRepository<T> where T : class
 
         if (includes is not null)
         {
-           foreach (var property in includes)
-           {
-               query = query.Include(property);
-           }
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
         }
 
         return await query.AsNoTracking().FirstOrDefaultAsync();
@@ -63,22 +57,18 @@ public class Repository<T> : IRepository<T> where T : class
     public async Task PostAsync(T entity)
     {
         await _db.AddAsync(entity);
-        await SaveAsync();
+        await _context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(T entity)
     {
         _db.Update(entity);
-        await SaveAsync();
+        await _context.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(T entity)
     {
         _db.Remove(entity);
-        await SaveAsync();
-    }
-    public async Task SaveAsync()
-    {
         await _context.SaveChangesAsync();
     }
 }
