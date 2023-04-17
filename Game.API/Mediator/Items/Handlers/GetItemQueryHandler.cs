@@ -5,11 +5,11 @@ using MediatR;
 
 namespace Game.API.Mediator.Items.Handlers;
 
-public class GetItemHandler : IRequestHandler<GetItemQuery, Item?>
+public class GetItemQueryHandler : IRequestHandler<GetItemQuery, Item?>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public GetItemHandler(IUnitOfWork unitOfWork)
+    public GetItemQueryHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }

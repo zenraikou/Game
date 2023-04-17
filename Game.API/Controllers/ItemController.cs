@@ -1,4 +1,4 @@
-﻿using Game.API.Data.IRepository;
+﻿using Game.API.Mediator.Items.Commands;
 using Game.API.Mediator.Items.Queries;
 using Game.API.Models;
 using Game.API.Models.DTOs;
@@ -14,13 +14,11 @@ namespace Game.API.Controllers;
 public class ItemController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ItemController> _logger;
 
-    public ItemController(IMediator mediator, IUnitOfWork unitOfWork, ILogger<ItemController> logger)
+    public ItemController(IMediator mediator, ILogger<ItemController> logger)
     {
         _mediator = mediator;
-        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -30,7 +28,6 @@ public class ItemController : ControllerBase
     public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAll()
     {
         var items = await _mediator.Send(new GetItemsQuery());
-        //var items = await _unitOfWork.Items.GetAllAsync();
 
         if (items.Any() is false)
         {
@@ -48,7 +45,6 @@ public class ItemController : ControllerBase
     public async Task<ActionResult<ItemDTO>> Get(Guid id)
     {
         var item = await _mediator.Send(new GetItemQuery(id));
-        //var item = await _unitOfWork.Items.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
@@ -66,8 +62,7 @@ public class ItemController : ControllerBase
     public async Task<ActionResult<ItemDTO>> Post([FromBody] ItemDTO itemDTO)
     {
         var item = itemDTO.Adapt<Item>();
-        await _unitOfWork.Items.PostAsync(item);
-        await _unitOfWork.SaveAsync();
+        await _mediator.Send(new PostItemCommand(item));
 
         _logger.LogInformation("Item created successfully.");
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item.Adapt<ItemDTO>());
@@ -79,7 +74,7 @@ public class ItemController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(Guid id, [FromBody] ItemDTO itemDTO)
     {
-        var item = await _unitOfWork.Items.GetAsync(i => i.Id == id);
+        var item = await _mediator.Send(new GetItemQuery(id));
 
         if (item is null)
         {
@@ -88,8 +83,7 @@ public class ItemController : ControllerBase
         }
 
         item = itemDTO.Adapt(item);
-        _unitOfWork.Items.Update(item);
-        await _unitOfWork.SaveAsync();
+        await _mediator.Send(new UpdateItemCommand(item));
 
         _logger.LogInformation("Item updated successfully.");
         return NoContent();
@@ -101,7 +95,7 @@ public class ItemController : ControllerBase
     [HttpPatch("{id}")]
     public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<ItemDTO> patchDoc)
     {
-        var item = await _unitOfWork.Items.GetAsync(i => i.Id == id);
+        var item = await _mediator.Send(new GetItemQuery(id));
 
         if (item is null)
         {
@@ -119,8 +113,7 @@ public class ItemController : ControllerBase
         }
 
         item = itemDTO.Adapt(item);
-        _unitOfWork.Items.Update(item);
-        await _unitOfWork.SaveAsync();
+        await _mediator.Send(new UpdateItemCommand(item));
 
         _logger.LogInformation("Item updated successfully.");
         return NoContent();
@@ -131,7 +124,7 @@ public class ItemController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var item = await _unitOfWork.Items.GetAsync(i => i.Id == id);
+        var item = await _mediator.Send(new GetItemQuery(id));
 
         if (item is null)
         {
@@ -139,8 +132,7 @@ public class ItemController : ControllerBase
             return NotFound();
         }
 
-        _unitOfWork.Items.Delete(item);
-        await _unitOfWork.SaveAsync();
+        await _mediator.Send(new DeleteItemCommand(item));
 
         _logger.LogInformation("Item deleted successfully.");
         return NoContent();
