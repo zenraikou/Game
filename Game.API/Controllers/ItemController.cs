@@ -1,7 +1,9 @@
 ﻿using Game.API.Data.IRepository;
+using Game.API.Mediator.Items.Queries;
 using Game.API.Models;
 using Game.API.Models.DTOs;
 using Mapster;
+using MediatR;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +13,14 @@ namespace Game.API.Controllers;
 [Route("api/[controller]")]
 public class ItemController : ControllerBase
 {
-    private readonly IUnitOfWork _repository;
+    private readonly IMediator _mediator;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly ILogger<ItemController> _logger;
 
-    public ItemController(IUnitOfWork repository, ILogger<ItemController> logger)
+    public ItemController(IMediator mediator, IUnitOfWork unitOfWork, ILogger<ItemController> logger)
     {
-        _repository = repository;
+        _mediator = mediator;
+        _unitOfWork = unitOfWork;
         _logger = logger;
     }
 
@@ -25,7 +29,8 @@ public class ItemController : ControllerBase
     [HttpGet("~/api/[controller]s")]
     public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAll()
     {
-        var items = await _repository.Items.GetAllAsync();
+        var items = await _mediator.Send(new GetItemsQuery());
+        //var items = await _unitOfWork.Items.GetAllAsync();
 
         if (items.Any() is false)
         {
@@ -34,7 +39,7 @@ public class ItemController : ControllerBase
         }
 
         _logger.LogInformation("Items fetched successfully.");
-        return Ok(items.Adapt<IEnumerable<ItemDTO>>());
+        return Ok(items.Adapt<List<ItemDTO>>());
     }
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -42,7 +47,8 @@ public class ItemController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ItemDTO>> Get(Guid id)
     {
-        var item = await _repository.Items.GetAsync(i => i.Id == id);
+        var item = await _mediator.Send(new GetItemQuery(id));
+        //var item = await _unitOfWork.Items.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
@@ -60,8 +66,8 @@ public class ItemController : ControllerBase
     public async Task<ActionResult<ItemDTO>> Post([FromBody] ItemDTO itemDTO)
     {
         var item = itemDTO.Adapt<Item>();
-        await _repository.Items.PostAsync(item);
-        await _repository.SaveAsync();
+        await _unitOfWork.Items.PostAsync(item);
+        await _unitOfWork.SaveAsync();
 
         _logger.LogInformation("Item created successfully.");
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item.Adapt<ItemDTO>());
@@ -73,7 +79,7 @@ public class ItemController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(Guid id, [FromBody] ItemDTO itemDTO)
     {
-        var item = await _repository.Items.GetAsync(i => i.Id == id);
+        var item = await _unitOfWork.Items.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
@@ -82,8 +88,8 @@ public class ItemController : ControllerBase
         }
 
         item = itemDTO.Adapt(item);
-        _repository.Items.Update(item);
-        await _repository.SaveAsync();
+        _unitOfWork.Items.Update(item);
+        await _unitOfWork.SaveAsync();
 
         _logger.LogInformation("Item updated successfully.");
         return NoContent();
@@ -95,7 +101,7 @@ public class ItemController : ControllerBase
     [HttpPatch("{id}")]
     public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<ItemDTO> patchDoc)
     {
-        var item = await _repository.Items.GetAsync(i => i.Id == id);
+        var item = await _unitOfWork.Items.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
@@ -113,8 +119,8 @@ public class ItemController : ControllerBase
         }
 
         item = itemDTO.Adapt(item);
-        _repository.Items.Update(item);
-        await _repository.SaveAsync();
+        _unitOfWork.Items.Update(item);
+        await _unitOfWork.SaveAsync();
 
         _logger.LogInformation("Item updated successfully.");
         return NoContent();
@@ -125,7 +131,7 @@ public class ItemController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var item = await _repository.Items.GetAsync(i => i.Id == id);
+        var item = await _unitOfWork.Items.GetAsync(i => i.Id == id);
 
         if (item is null)
         {
@@ -133,8 +139,8 @@ public class ItemController : ControllerBase
             return NotFound();
         }
 
-        _repository.Items.Delete(item);
-        await _repository.SaveAsync();
+        _unitOfWork.Items.Delete(item);
+        await _unitOfWork.SaveAsync();
 
         _logger.LogInformation("Item deleted successfully.");
         return NoContent();

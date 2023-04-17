@@ -1,6 +1,7 @@
 using Game.API.Data;
 using Game.API.Data.IRepository;
 using Game.API.Data.Repository;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
     {
         options.UseSqlServer(builder.Configuration.GetConnectionString("GameConnection"));
     });
+    builder.Services.AddMediatR(typeof(Program));
 }
 
 var app = builder.Build();

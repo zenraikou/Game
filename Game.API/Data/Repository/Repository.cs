@@ -15,7 +15,7 @@ public class Repository<T> : IRepository<T> where T : class
         _db = _context.Set<T>();
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>>? expression/*, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy, List<string>? includes*/)
+    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? expression/*, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy, List<string>? includes*/)
     {
        IQueryable<T> query = _db;
 
