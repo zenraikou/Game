@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Game.API.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20230412082226_Initialize")]
+    [Migration("20230417062803_Initialize")]
     partial class Initialize
     {
         /// <inheritdoc />
@@ -58,43 +58,43 @@ namespace Game.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1ebc725c-b1ec-43a4-8be8-a700a17b769d"),
+                            Id = new Guid("0fe99fbe-4def-46e7-a51d-c60f55324dfe"),
                             Category = 0,
                             Description = "A dagger crafted from the tooth of a Pure Silver Dragon.",
                             Element = 4,
                             Name = "Dagon",
                             Price = 0.99m,
-                            Timestamp = new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6224)
+                            Timestamp = new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5897)
                         },
                         new
                         {
-                            Id = new Guid("9334aa54-06f3-4f0e-a708-39cdd532bbe0"),
+                            Id = new Guid("d3336881-b66f-444b-b185-b9e4586fb161"),
                             Category = 1,
                             Description = "A sword crafted from the talon of a Pure Silver Dragon.",
                             Element = 4,
                             Name = "Yasha",
                             Price = 1.99m,
-                            Timestamp = new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6243)
+                            Timestamp = new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5914)
                         },
                         new
                         {
-                            Id = new Guid("b85f4500-d4e1-4a86-8c9a-495725d00d7d"),
+                            Id = new Guid("3539245d-2b2a-4132-b5f0-8747b4ea89de"),
                             Category = 2,
                             Description = "A bow crafted from the wing of a Pure Silver Dragon.",
                             Element = 4,
                             Name = "Buriza",
                             Price = 2.99m,
-                            Timestamp = new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6302)
+                            Timestamp = new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5920)
                         },
                         new
                         {
-                            Id = new Guid("69739a03-4441-4e51-a2dd-a611848ffbe3"),
+                            Id = new Guid("d3d1beee-2a78-4f86-9573-b2f4d65cd9db"),
                             Category = 3,
                             Description = "A shield crafted from the scales of a Pure Silver Dragon.",
                             Element = 4,
                             Name = "Vanguard",
                             Price = 3.99m,
-                            Timestamp = new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6307)
+                            Timestamp = new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5926)
                         });
                 });
 #pragma warning restore 612, 618

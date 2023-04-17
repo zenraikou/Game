@@ -35,10 +35,10 @@ namespace Game.API.Migrations
                 columns: new[] { "Id", "Category", "Description", "Element", "Name", "Price", "Timestamp" },
                 values: new object[,]
                 {
-                    { new Guid("1ebc725c-b1ec-43a4-8be8-a700a17b769d"), 0, "A dagger crafted from the tooth of a Pure Silver Dragon.", 4, "Dagon", 0.99m, new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6224) },
-                    { new Guid("69739a03-4441-4e51-a2dd-a611848ffbe3"), 3, "A shield crafted from the scales of a Pure Silver Dragon.", 4, "Vanguard", 3.99m, new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6307) },
-                    { new Guid("9334aa54-06f3-4f0e-a708-39cdd532bbe0"), 1, "A sword crafted from the talon of a Pure Silver Dragon.", 4, "Yasha", 1.99m, new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6243) },
-                    { new Guid("b85f4500-d4e1-4a86-8c9a-495725d00d7d"), 2, "A bow crafted from the wing of a Pure Silver Dragon.", 4, "Buriza", 2.99m, new DateTime(2023, 4, 12, 8, 22, 25, 753, DateTimeKind.Utc).AddTicks(6302) }
+                    { new Guid("0fe99fbe-4def-46e7-a51d-c60f55324dfe"), 0, "A dagger crafted from the tooth of a Pure Silver Dragon.", 4, "Dagon", 0.99m, new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5897) },
+                    { new Guid("3539245d-2b2a-4132-b5f0-8747b4ea89de"), 2, "A bow crafted from the wing of a Pure Silver Dragon.", 4, "Buriza", 2.99m, new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5920) },
+                    { new Guid("d3336881-b66f-444b-b185-b9e4586fb161"), 1, "A sword crafted from the talon of a Pure Silver Dragon.", 4, "Yasha", 1.99m, new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5914) },
+                    { new Guid("d3d1beee-2a78-4f86-9573-b2f4d65cd9db"), 3, "A shield crafted from the scales of a Pure Silver Dragon.", 4, "Vanguard", 3.99m, new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5926) }
                 });
         }
 
