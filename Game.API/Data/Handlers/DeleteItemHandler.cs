@@ -1,15 +1,15 @@
-﻿using Game.API.Data.IRepository;
-using Game.API.Mediator.Items.Commands;
+﻿using Game.API.Data.Commands;
+using Game.API.Data.IRepository;
 using Game.API.Models;
 using MediatR;
 
-namespace Game.API.Mediator.Items.Handlers;
+namespace Game.API.Data.Handlers;
 
-public class DeleteItemCommandHandler : IRequestHandler<DeleteItemCommand, Item>
+public class DeleteItemHandler : IRequestHandler<DeleteItemCommand, Item>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteItemCommandHandler(IUnitOfWork unitOfWork)
+    public DeleteItemHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }

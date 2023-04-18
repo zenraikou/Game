@@ -1,15 +1,15 @@
 ﻿using Game.API.Data.IRepository;
-using Game.API.Mediator.Items.Queries;
+using Game.API.Data.Queries;
 using Game.API.Models;
 using MediatR;
 
-namespace Game.API.Mediator.Items.Handlers;
+namespace Game.API.Data.Handlers;
 
-public class GetItemQueryHandler : IRequestHandler<GetItemQuery, Item?>
+public class GetItemHandler : IRequestHandler<GetItemQuery, Item?>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public GetItemQueryHandler(IUnitOfWork unitOfWork)
+    public GetItemHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }

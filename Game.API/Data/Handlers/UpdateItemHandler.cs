@@ -1,15 +1,15 @@
-﻿using Game.API.Data.IRepository;
-using Game.API.Mediator.Items.Commands;
+﻿using Game.API.Data.Commands;
+using Game.API.Data.IRepository;
 using Game.API.Models;
 using MediatR;
 
-namespace Game.API.Mediator.Items.Handlers;
+namespace Game.API.Data.Handlers;
 
-public class UpdateItemCommandHandler : IRequestHandler<UpdateItemCommand, Item>
+public class UpdateItemHandler : IRequestHandler<UpdateItemCommand, Item>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public UpdateItemCommandHandler(IUnitOfWork unitOfWork)
+    public UpdateItemHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }

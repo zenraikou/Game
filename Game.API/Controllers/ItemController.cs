@@ -1,5 +1,5 @@
-﻿using Game.API.Mediator.Items.Commands;
-using Game.API.Mediator.Items.Queries;
+﻿using Game.API.Data.Commands;
+using Game.API.Data.Queries;
 using Game.API.Models;
 using Game.API.Models.DTOs;
 using Mapster;
@@ -59,7 +59,7 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [HttpPost]
-    public async Task<ActionResult<ItemDTO>> Post([FromBody] ItemDTO itemDTO)
+    public async Task<ActionResult<ItemDTO>> Post(ItemDTO itemDTO)
     {
         var item = itemDTO.Adapt<Item>();
         await _mediator.Send(new PostItemCommand(item));
@@ -72,7 +72,7 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, [FromBody] ItemDTO itemDTO)
+    public async Task<IActionResult> Put(Guid id, ItemDTO itemDTO)
     {
         var item = await _mediator.Send(new GetItemQuery(id));
 
@@ -93,7 +93,7 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPatch("{id}")]
-    public async Task<IActionResult> Patch(Guid id, [FromBody] JsonPatchDocument<ItemDTO> patchDoc)
+    public async Task<IActionResult> Patch(Guid id, JsonPatchDocument<ItemDTO> patchDoc)
     {
         var item = await _mediator.Send(new GetItemQuery(id));
 

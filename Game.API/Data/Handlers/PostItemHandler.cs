@@ -1,15 +1,15 @@
-﻿using Game.API.Data.IRepository;
-using Game.API.Mediator.Items.Commands;
+﻿using Game.API.Data.Commands;
+using Game.API.Data.IRepository;
 using Game.API.Models;
 using MediatR;
 
-namespace Game.API.Mediator.Items.Handlers;
+namespace Game.API.Data.Handlers;
 
-public class PostItemCommandHandler : IRequestHandler<PostItemCommand, Item>
+public class PostItemHandler : IRequestHandler<PostItemCommand, Item>
 {
     private readonly IUnitOfWork _unitOfWork;
 
-    public PostItemCommandHandler(IUnitOfWork unitOfWork)
+    public PostItemHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
