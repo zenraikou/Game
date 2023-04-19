@@ -5,6 +5,7 @@
 @host = http://localhost:5000
 
 ### Documented Responses
-# 204 No Content
+# 500 Internal Server Error
 # 404 Not Found
+# 204 No Content
 DELETE  {{host}}/api/item/{{guid}}

@@ -1,4 +1,5 @@
 ﻿using Game.API.Models.Enums;
+
 using Type = Game.API.Models.Enums.Type;
 
 namespace Game.API.Models;

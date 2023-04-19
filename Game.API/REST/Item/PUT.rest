@@ -5,8 +5,9 @@
 @host = http://localhost:5000
 
 ### Documented Responses
-# 204 No Content
+# 500 Internal Server Error
 # 404 Not Found
+# 204 No Content
 PUT {{host}}/api/item/{{guid}}
 Content-Type: application/json
 
@@ -19,6 +20,7 @@ Content-Type: application/json
 }
 
 ### Documented Response
+# 500 Internal Server Error
 # 400 Bad Request
 PUT {{host}}/api/item/{{guid}}
 Content-Type: application/json

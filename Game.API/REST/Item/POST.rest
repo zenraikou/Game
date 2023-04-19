@@ -2,6 +2,7 @@
 @host = http://localhost:5000
 
 ### Documented Response
+# 500 Internal Server Error
 # 201 Created
 POST  {{host}}/api/item
 Content-Type: application/json
@@ -15,6 +16,7 @@ Content-Type: application/json
 }
 
 ### Documented Response
+# 500 Internal Server Error
 # 400 Bad Request
 POST  {{host}}/api/item
 Content-Type: application/json

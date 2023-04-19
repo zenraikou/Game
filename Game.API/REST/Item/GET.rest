@@ -5,6 +5,7 @@
 @host = http://localhost:5000
 
 ### Documented Responses
-# 200 OK
+# 500 Internal Server Error
 # 404 Not Found
+# 200 OK
 GET {{host}}/api/item/{{guid}}

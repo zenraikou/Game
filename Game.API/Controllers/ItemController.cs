@@ -22,8 +22,9 @@ public class ItemController : ControllerBase
         _logger = logger;
     }
 
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ItemDTO>))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("~/api/[controller]s")]
     public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAll()
     {
@@ -39,8 +40,9 @@ public class ItemController : ControllerBase
         return Ok(items.Adapt<List<ItemDTO>>());
     }
 
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemDTO))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [HttpGet("{id}")]
     public async Task<ActionResult<ItemDTO>> Get(Guid id)
     {
@@ -56,8 +58,9 @@ public class ItemController : ControllerBase
         return Ok(item.Adapt<ItemDTO>());
     }
 
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ItemDTO))]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [HttpPost]
     public async Task<ActionResult<ItemDTO>> Post(ItemDTO itemDTO)
     {
@@ -68,8 +71,9 @@ public class ItemController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item.Adapt<ItemDTO>());
     }
 
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(Guid id, ItemDTO itemDTO)
@@ -89,6 +93,7 @@ public class ItemController : ControllerBase
         return NoContent();
     }
 
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -104,12 +109,12 @@ public class ItemController : ControllerBase
         }
 
         var itemDTO = item.Adapt<ItemDTO>();
-        patchDoc.ApplyTo(itemDTO, ModelState);
+        patchDoc.ApplyTo(itemDTO);
 
         if (TryValidateModel(itemDTO) is false)
         {
             _logger.LogInformation("Item is invalid.");
-            return BadRequest(ModelState);
+            return BadRequest();
         }
 
         item = itemDTO.Adapt(item);
@@ -119,6 +124,7 @@ public class ItemController : ControllerBase
         return NoContent();
     }
 
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpDelete("{id}")]
