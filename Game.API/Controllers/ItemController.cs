@@ -23,7 +23,7 @@ public class ItemController : ControllerBase
     }
 
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(IEnumerable<ItemDTO>), StatusCodes.Status200OK)]
     [HttpGet("~/api/[controller]s")]
     public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAll()
     {
@@ -40,7 +40,7 @@ public class ItemController : ControllerBase
     }
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ItemDTO), StatusCodes.Status200OK)]
     [HttpGet("{id}")]
     public async Task<ActionResult<ItemDTO>> Get(Guid id)
     {
@@ -57,7 +57,7 @@ public class ItemController : ControllerBase
     }
 
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ItemDTO), StatusCodes.Status201Created)]
     [HttpPost]
     public async Task<ActionResult<ItemDTO>> Post(ItemDTO itemDTO)
     {

@@ -6,9 +6,7 @@ namespace Game.API.Data;
 
 public class GameContext : DbContext
 {
-    public GameContext(DbContextOptions<GameContext> options) : base(options) 
-    { 
-    }
+    public GameContext(DbContextOptions<GameContext> options) : base(options) { }
 
     public DbSet<Item> Items => Set<Item>();
 
