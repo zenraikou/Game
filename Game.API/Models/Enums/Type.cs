@@ -1,6 +1,6 @@
 ﻿namespace Game.API.Models.Enums;
 
-public enum Category
+public enum Type
 {
     Dagger,
     Sword,

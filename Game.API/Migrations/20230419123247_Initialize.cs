@@ -17,7 +17,7 @@ namespace Game.API.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Category = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<int>(type: "int", nullable: false),
                     Element = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -29,13 +29,13 @@ namespace Game.API.Migrations
 
             migrationBuilder.InsertData(
                 table: "Items",
-                columns: new[] { "Id", "Category", "Description", "Element", "Name", "Price", "Timestamp" },
+                columns: new[] { "Id", "Description", "Element", "Name", "Price", "Timestamp", "Type" },
                 values: new object[,]
                 {
-                    { new Guid("0fe99fbe-4def-46e7-a51d-c60f55324dfe"), 0, "A dagger crafted from the tooth of a Pure Silver Dragon.", 4, "Dagon", 0.99m, new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5897) },
-                    { new Guid("3539245d-2b2a-4132-b5f0-8747b4ea89de"), 2, "A bow crafted from the wing of a Pure Silver Dragon.", 4, "Buriza", 2.99m, new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5920) },
-                    { new Guid("d3336881-b66f-444b-b185-b9e4586fb161"), 1, "A sword crafted from the talon of a Pure Silver Dragon.", 4, "Yasha", 1.99m, new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5914) },
-                    { new Guid("d3d1beee-2a78-4f86-9573-b2f4d65cd9db"), 3, "A shield crafted from the scales of a Pure Silver Dragon.", 4, "Vanguard", 3.99m, new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5926) }
+                    { new Guid("383b3d10-3f46-4c85-b91a-a4d19e028969"), "A shield crafted from the scales of a Pure Silver Dragon.", 4, "Vanguard", 3.99m, new DateTime(2023, 4, 19, 12, 32, 47, 232, DateTimeKind.Utc).AddTicks(6057), 3 },
+                    { new Guid("6b40b230-c6c4-40a4-92bf-01db943d7d2c"), "A sword crafted from the talon of a Pure Silver Dragon.", 4, "Yasha", 1.99m, new DateTime(2023, 4, 19, 12, 32, 47, 232, DateTimeKind.Utc).AddTicks(6044), 1 },
+                    { new Guid("e438fd4c-8a72-46ea-a5e8-3c4df850b6d9"), "A dagger crafted from the tooth of a Pure Silver Dragon.", 4, "Dagon", 0.99m, new DateTime(2023, 4, 19, 12, 32, 47, 232, DateTimeKind.Utc).AddTicks(6027), 0 },
+                    { new Guid("fe149d4f-00e5-468c-8a1c-12408176ac53"), "A bow crafted from the wing of a Pure Silver Dragon.", 4, "Buriza", 2.99m, new DateTime(2023, 4, 19, 12, 32, 47, 232, DateTimeKind.Utc).AddTicks(6051), 2 }
                 });
         }
 

@@ -23,7 +23,7 @@ Content-Type: application/json
     },
     {
         "op": "replace",
-        "path": "/category",
+        "path": "/type",
         "value": "4"
     },
     {
@@ -56,7 +56,7 @@ Content-Type: application/json
     },
     {
         "op": "replace",
-        "path": "/category",
+        "path": "/type",
         "value": ""
     },
     {

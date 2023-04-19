@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Game.API.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20230417062803_Initialize")]
+    [Migration("20230419123247_Initialize")]
     partial class Initialize
     {
         /// <inheritdoc />
@@ -31,9 +31,6 @@ namespace Game.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -51,6 +48,9 @@ namespace Game.API.Migrations
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Items");
@@ -58,43 +58,43 @@ namespace Game.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0fe99fbe-4def-46e7-a51d-c60f55324dfe"),
-                            Category = 0,
+                            Id = new Guid("e438fd4c-8a72-46ea-a5e8-3c4df850b6d9"),
                             Description = "A dagger crafted from the tooth of a Pure Silver Dragon.",
                             Element = 4,
                             Name = "Dagon",
                             Price = 0.99m,
-                            Timestamp = new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5897)
+                            Timestamp = new DateTime(2023, 4, 19, 12, 32, 47, 232, DateTimeKind.Utc).AddTicks(6027),
+                            Type = 0
                         },
                         new
                         {
-                            Id = new Guid("d3336881-b66f-444b-b185-b9e4586fb161"),
-                            Category = 1,
+                            Id = new Guid("6b40b230-c6c4-40a4-92bf-01db943d7d2c"),
                             Description = "A sword crafted from the talon of a Pure Silver Dragon.",
                             Element = 4,
                             Name = "Yasha",
                             Price = 1.99m,
-                            Timestamp = new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5914)
+                            Timestamp = new DateTime(2023, 4, 19, 12, 32, 47, 232, DateTimeKind.Utc).AddTicks(6044),
+                            Type = 1
                         },
                         new
                         {
-                            Id = new Guid("3539245d-2b2a-4132-b5f0-8747b4ea89de"),
-                            Category = 2,
+                            Id = new Guid("fe149d4f-00e5-468c-8a1c-12408176ac53"),
                             Description = "A bow crafted from the wing of a Pure Silver Dragon.",
                             Element = 4,
                             Name = "Buriza",
                             Price = 2.99m,
-                            Timestamp = new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5920)
+                            Timestamp = new DateTime(2023, 4, 19, 12, 32, 47, 232, DateTimeKind.Utc).AddTicks(6051),
+                            Type = 2
                         },
                         new
                         {
-                            Id = new Guid("d3d1beee-2a78-4f86-9573-b2f4d65cd9db"),
-                            Category = 3,
+                            Id = new Guid("383b3d10-3f46-4c85-b91a-a4d19e028969"),
                             Description = "A shield crafted from the scales of a Pure Silver Dragon.",
                             Element = 4,
                             Name = "Vanguard",
                             Price = 3.99m,
-                            Timestamp = new DateTime(2023, 4, 17, 6, 28, 3, 143, DateTimeKind.Utc).AddTicks(5926)
+                            Timestamp = new DateTime(2023, 4, 19, 12, 32, 47, 232, DateTimeKind.Utc).AddTicks(6057),
+                            Type = 3
                         });
                 });
 #pragma warning restore 612, 618

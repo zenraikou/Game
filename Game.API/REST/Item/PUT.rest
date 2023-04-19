@@ -13,7 +13,7 @@ Content-Type: application/json
 {
     "name": "Crimson Guard",
     "description": "An armor crafted from the scales of a Pure Crimson Dragon.",
-    "category": "4",
+    "type": "4",
     "element": "1",
     "price": "5.99"
 }
@@ -26,7 +26,7 @@ Content-Type: application/json
 {
     "name": "",
     "description": "",
-    "category": "",
+    "type": "",
     "element": "",
     "price": ""
 }

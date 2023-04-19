@@ -1,6 +1,7 @@
 ﻿using Game.API.Models.Enums;
 using Mapster;
 using System.ComponentModel.DataAnnotations;
+using Type = Game.API.Models.Enums.Type;
 
 namespace Game.API.Models.DTOs;
 
@@ -14,7 +15,7 @@ public class ItemDTO
     [Required]
     public required string Description { get; set; }
     [Required]
-    public required Category Category { get; set; }
+    public required Type Type { get; set; }
     [Required]
     public required Element Element { get; set; }
     [Required]

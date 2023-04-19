@@ -1,6 +1,7 @@
 ﻿using Game.API.Models;
 using Game.API.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using Type = Game.API.Models.Enums.Type;
 
 namespace Game.API.Data;
 
@@ -17,7 +18,7 @@ public class GameContext : DbContext
             {
                 Name = "Dagon",
                 Description = "A dagger crafted from the tooth of a Pure Silver Dragon.",
-                Category = Category.Dagger,
+                Type = Type.Dagger,
                 Element = Element.Light,
                 Price = 0.99m
             },
@@ -25,7 +26,7 @@ public class GameContext : DbContext
             {
                 Name = "Yasha",
                 Description = "A sword crafted from the talon of a Pure Silver Dragon.",
-                Category = Category.Sword,
+                Type = Type.Sword,
                 Element = Element.Light,
                 Price = 1.99m
             },
@@ -33,7 +34,7 @@ public class GameContext : DbContext
             {
                 Name = "Buriza",
                 Description = "A bow crafted from the wing of a Pure Silver Dragon.",
-                Category = Category.Bow,
+                Type = Type.Bow,
                 Element = Element.Light,
                 Price = 2.99m
             },
@@ -41,7 +42,7 @@ public class GameContext : DbContext
             {
                 Name = "Vanguard",
                 Description = "A shield crafted from the scales of a Pure Silver Dragon.",
-                Category = Category.Shield,
+                Type = Type.Shield,
                 Element = Element.Light,
                 Price = 3.99m
             });

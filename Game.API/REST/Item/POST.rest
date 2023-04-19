@@ -9,7 +9,7 @@ Content-Type: application/json
 {
     "name": "Cuirass",
     "description": "An armor crafted from the scales of a Pure Silver Dragon.",
-    "category": "4",
+    "type": "4",
     "element": "4",
     "price": "4.99"
 }
@@ -22,7 +22,7 @@ Content-Type: application/json
 {
     "name": "",
     "description": "",
-    "category": "",
+    "type": "",
     "element": "",
     "price": ""
 }
