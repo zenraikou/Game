@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
 
 namespace Game.API.Middlewares;
@@ -19,25 +18,19 @@ public class GlobalErrorHandlerMiddleware : IMiddleware
         {
             await next(context);
         }
-        catch (Exception error)
+        catch (Exception ex)
         {
-            _logger.LogError(error.Message);
-
-            var status = (int)HttpStatusCode.InternalServerError;
-
-            var problem = new ProblemDetails()
-            {
-                Type = "Internal Server Error",
-                Title = "Internal Server Error",
-                Status = status,
-                Detail = "An internal server error has occured."
-            };
-
-            var result = JsonSerializer.Serialize(problem);
-
-            context.Response.ContentType = "application/json";
-            context.Response.StatusCode = status;
-            await context.Response.WriteAsync(result);
+            _logger.LogInformation("An internal server error has occured.");
+            await GlobalErrorHandler(context, ex);
         }
+    }
+
+    private static Task GlobalErrorHandler(HttpContext context, Exception ex)
+    {
+        var code = (int)HttpStatusCode.InternalServerError;
+        var result = JsonSerializer.Serialize(new { error = "An internal server error has occured.", ex.StackTrace });
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = code;
+        return context.Response.WriteAsync(result);
     }
 }
