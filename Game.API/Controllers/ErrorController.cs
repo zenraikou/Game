@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
-using System.Net;
 
 namespace Game.API.Controllers;
 
@@ -12,7 +10,6 @@ public class ErrorController : ControllerBase
     [OnError]
     public IActionResult Error()
     {
-        var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
-        return Problem(title: exception?.Message, statusCode: (int)HttpStatusCode.InternalServerError);
+        return Problem(title: "Internal Server Error", detail: "An internal server error has occured.");
     }
 }
