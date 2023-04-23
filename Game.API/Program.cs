@@ -7,28 +7,24 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    var logger = new LoggerConfiguration()
-        .ReadFrom.Configuration(builder.Configuration)
-        .Enrich.FromLogContext().CreateLogger();
-
     builder.Services.AddControllers().AddNewtonsoftJson();
     builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-    builder.Logging.ClearProviders();
-    builder.Logging.AddSerilog();
+    builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
+    builder.Services.AddMediatR(typeof(Program));
     
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
     builder.Services.AddDbContext<GameContext>(options => 
     {
         options.UseSqlServer(builder.Configuration.GetConnectionString("GameConnection"));
     });
-    
-    builder.Services.AddMediatR(typeof(Program));
 }
+    
 
 var app = builder.Build();
 {
     app.UseExceptionHandler("/api/error");
+    app.UseSerilogRequestLogging();
     app.UseHttpsRedirection();
     app.MapControllers();
     app.Run();

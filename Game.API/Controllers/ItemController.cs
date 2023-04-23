@@ -13,10 +13,10 @@ namespace Game.API.Controllers;
 [Route("api/[controller]")]
 public class ItemController : ControllerBase
 {
-    private readonly IMediator _mediator;
     private readonly ILogger<ItemController> _logger;
+    private readonly IMediator _mediator;
 
-    public ItemController(IMediator mediator, ILogger<ItemController> logger)
+    public ItemController(ILogger<ItemController> logger, IMediator mediator)
     {
         _mediator = mediator;
         _logger = logger;
