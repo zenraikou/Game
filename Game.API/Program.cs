@@ -19,7 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
         options.UseSqlServer(builder.Configuration.GetConnectionString("GameConnection"));
     });
 }
-    
 
 var app = builder.Build();
 {
