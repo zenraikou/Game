@@ -117,7 +117,7 @@ public class ItemController : ControllerBase
             return BadRequest();
         }
 
-        item = itemDTO.Adapt(item);
+        itemDTO.Adapt(item);
         await _mediator.Send(new UpdateItemCommand(item));
 
         _logger.LogInformation("Item updated successfully.");
