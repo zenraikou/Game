@@ -65,22 +65,8 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [HttpPost]
-    public async Task<ActionResult<GetItemRequest>> Post(PostItemRequest request, IValidator<PostItemRequest> validator)
+    public async Task<ActionResult<GetItemRequest>> Post(PostItemRequest request)
     {
-        ValidationResult result = validator.Validate(request);
-
-        if (!result.IsValid)
-        {
-            var dictionary = new ModelStateDictionary();
-            
-            foreach (ValidationFailure failure in result.Errors)
-            {
-                dictionary.AddModelError(failure.PropertyName, failure.ErrorMessage);
-            }
-
-            return ValidationProblem(dictionary);
-        }
-        
         var item = request.Adapt<Item>();
         await _mediator.Send(new PostItemCommand(item));
 
@@ -93,22 +79,8 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, UpdateItemRequest request, IValidator<UpdateItemRequest> validator)
+    public async Task<IActionResult> Put(Guid id, UpdateItemRequest request)
     {
-        ValidationResult result = validator.Validate(request);
-
-        if (!result.IsValid)
-        {
-            var dictionary = new ModelStateDictionary();
-            
-            foreach (ValidationFailure failure in result.Errors)
-            {
-                dictionary.AddModelError(failure.PropertyName, failure.ErrorMessage);
-            }
-
-            return ValidationProblem(dictionary);
-        }
-        
         var item = await _mediator.Send(new GetItemQuery(id));
 
         if (item is null)
@@ -153,6 +125,7 @@ public class ItemController : ControllerBase
                 dictionary.AddModelError(failure.PropertyName, failure.ErrorMessage);
             }
 
+            _logger.LogInformation("Item is invalid.");
             return ValidationProblem(dictionary);
         }
 
