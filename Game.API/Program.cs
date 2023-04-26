@@ -1,6 +1,9 @@
+using FluentValidation;
+using Game.API.Contracts.Item;
 using Game.API.Data;
 using Game.API.Data.IRepository;
 using Game.API.Data.Repository;
+using Game.API.Validators;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -12,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
     builder.Services.AddMediatR(typeof(Program));
+
+    builder.Services.AddScoped<IValidator<PostItemRequest>, PostItemRequestValidator>();
+    builder.Services.AddScoped<IValidator<UpdateItemRequest>, UpdateItemRequestValidator>();
     
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
     builder.Services.AddDbContext<GameContext>(options => 
