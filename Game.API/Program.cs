@@ -1,5 +1,4 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Game.API.Common;
 using Game.API.Data;
 using Game.API.Data.IRepository;
@@ -12,9 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
     builder.Services.AddRouting(options => options.LowercaseUrls = true);
-    builder.Services.AddMvc().AddNewtonsoftJson();
     builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
-    builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+    builder.Services.AddMvc().AddNewtonsoftJson();
     builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
     builder.Services.AddMediatR(typeof(Program));
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

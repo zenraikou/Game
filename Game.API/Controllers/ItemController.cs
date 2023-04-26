@@ -53,7 +53,7 @@ public class ItemController : ControllerBase
 
         if (item is null)
         {
-            _logger.LogInformation("Item does not exist.");
+            _logger.LogError("Item does not exist.");
             return NotFound();
         }
 
@@ -65,8 +65,23 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [HttpPost]
-    public async Task<ActionResult<GetItemRequest>> Post(PostItemRequest request)
+    public async Task<ActionResult<GetItemRequest>> Post(PostItemRequest request, IValidator<PostItemRequest> validator)
     {
+        ValidationResult result = validator.Validate(request);
+
+        if (!result.IsValid)
+        {
+            var dictionary = new ModelStateDictionary();
+            
+            foreach (ValidationFailure failure in result.Errors)
+            {
+                dictionary.AddModelError(failure.PropertyName, failure.ErrorMessage);
+            }
+
+            _logger.LogError("Item is invalid.");
+            return ValidationProblem(dictionary);
+        }
+
         var item = request.Adapt<Item>();
         await _mediator.Send(new PostItemCommand(item));
 
@@ -79,13 +94,28 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, UpdateItemRequest request)
+    public async Task<IActionResult> Put(Guid id, UpdateItemRequest request, IValidator<UpdateItemRequest> validator)
     {
+        ValidationResult result = validator.Validate(request);
+
+        if (!result.IsValid)
+        {
+            var dictionary = new ModelStateDictionary();
+            
+            foreach (ValidationFailure failure in result.Errors)
+            {
+                dictionary.AddModelError(failure.PropertyName, failure.ErrorMessage);
+            }
+
+            _logger.LogError("Item is invalid.");
+            return ValidationProblem(dictionary);
+        }
+
         var item = await _mediator.Send(new GetItemQuery(id));
 
         if (item is null)
         {
-            _logger.LogInformation("Item does not exist.");
+            _logger.LogError("Item does not exist.");
             return NotFound();
         }
 
@@ -107,7 +137,7 @@ public class ItemController : ControllerBase
 
         if (item is null)
         {
-            _logger.LogInformation("Item does not exist.");
+            _logger.LogError("Item does not exist.");
             return NotFound();
         }
 
@@ -125,7 +155,7 @@ public class ItemController : ControllerBase
                 dictionary.AddModelError(failure.PropertyName, failure.ErrorMessage);
             }
 
-            _logger.LogInformation("Item is invalid.");
+            _logger.LogError("Item is invalid.");
             return ValidationProblem(dictionary);
         }
 
@@ -146,7 +176,7 @@ public class ItemController : ControllerBase
 
         if (item is null)
         {
-            _logger.LogInformation("Item does not exist.");
+            _logger.LogError("Item does not exist.");
             return NotFound();
         }
 
