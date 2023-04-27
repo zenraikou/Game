@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Game.API.Data.IRepository;
+namespace Game.API.Persistence.IRepository;
 
 public interface IRepository<T> where T : class
 {

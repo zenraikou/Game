@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 using Game.API.Contracts.Item;
-using Game.API.Data.Commands;
-using Game.API.Data.Queries;
+using Game.API.Mediator.ItemCQRS.Commands;
+using Game.API.Mediator.ItemCQRS.Queries;
 using Game.API.Models;
 using Mapster;
 using MediatR;
@@ -28,8 +28,8 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [HttpGet("~/api/[controller]s")]
-    public async Task<ActionResult<IEnumerable<GetItemRequest>>> GetAll()
+    [HttpGet("~/api/[controller]s")] /* GET: {host}/api/items */
+    public async Task<ActionResult<IEnumerable<GetItemResponse>>> GetAll()
     {
         var items = await _mediator.Send(new GetItemsQuery());
 
@@ -40,14 +40,14 @@ public class ItemController : ControllerBase
         }
 
         _logger.LogInformation("Items fetched successfully.");
-        return Ok(items.Adapt<List<GetItemRequest>>());
+        return Ok(items.Adapt<List<GetItemResponse>>());
     }
 
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [HttpGet("{id}")]
-    public async Task<ActionResult<GetItemRequest>> Get(Guid id)
+    [HttpGet("{id}")] /* GET: {host}/api/item/{id} */
+    public async Task<ActionResult<GetItemResponse>> Get(Guid id)
     {
         var item = await _mediator.Send(new GetItemQuery(id));
 
@@ -58,14 +58,14 @@ public class ItemController : ControllerBase
         }
 
         _logger.LogInformation("Item fetched successfully.");
-        return Ok(item.Adapt<GetItemRequest>());
+        return Ok(item.Adapt<GetItemResponse>());
     }
 
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    [HttpPost]
-    public async Task<ActionResult<GetItemRequest>> Post(PostItemRequest request, IValidator<PostItemRequest> validator)
+    [HttpPost] /* POST: {host}/api/item */
+    public async Task<ActionResult<GetItemResponse>> Post(UpsertItemRequest request, IValidator<UpsertItemRequest> validator)
     {
         ValidationResult result = validator.Validate(request);
 
@@ -86,15 +86,15 @@ public class ItemController : ControllerBase
         await _mediator.Send(new PostItemCommand(item));
 
         _logger.LogInformation("Item created successfully.");
-        return CreatedAtAction(nameof(Get), new { id = item.Id }, item.Adapt<GetItemRequest>());
+        return CreatedAtAction(nameof(Get), new { id = item.Id }, item.Adapt<GetItemResponse>());
     }
 
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(Guid id, UpdateItemRequest request, IValidator<UpdateItemRequest> validator)
+    [HttpPut("{id}")] /* PUT: {host}/api/item/{id} */
+    public async Task<IActionResult> Put(Guid id, UpsertItemRequest request, IValidator<UpsertItemRequest> validator)
     {
         ValidationResult result = validator.Validate(request);
 
@@ -130,8 +130,8 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpPatch("{id}")]
-    public async Task<IActionResult> Patch(Guid id, JsonPatchDocument<UpdateItemRequest> patchDoc, IValidator<UpdateItemRequest> validator)
+    [HttpPatch("{id}")] /* PATCH: {host}/api/item/{id} */
+    public async Task<IActionResult> Patch(Guid id, JsonPatchDocument<UpsertItemRequest> patchDoc, IValidator<UpsertItemRequest> validator)
     {
         var item = await _mediator.Send(new GetItemQuery(id));
 
@@ -141,7 +141,7 @@ public class ItemController : ControllerBase
             return NotFound();
         }
 
-        var request = item.Adapt<UpdateItemRequest>();
+        var request = item.Adapt<UpsertItemRequest>();
         patchDoc.ApplyTo(request);
 
         ValidationResult result = validator.Validate(request);
@@ -169,7 +169,7 @@ public class ItemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpDelete("{id}")]
+    [HttpDelete("{id}")] /* DELETE: {host}/api/item/{id} */
     public async Task<IActionResult> Delete(Guid id)
     {
         var item = await _mediator.Send(new GetItemQuery(id));

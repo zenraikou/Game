@@ -1,8 +1,8 @@
 using FluentValidation;
 using Game.API.Common;
-using Game.API.Data;
-using Game.API.Data.IRepository;
-using Game.API.Data.Repository;
+using Game.API.Persistence;
+using Game.API.Persistence.IRepository;
+using Game.API.Persistence.Repository;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -10,9 +10,9 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
+    builder.Services.AddMvc().AddNewtonsoftJson();
     builder.Services.AddRouting(options => options.LowercaseUrls = true);
     builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
-    builder.Services.AddMvc().AddNewtonsoftJson();
     builder.Services.AddValidatorsFromAssemblyContaining<IAssemblyMarker>();
     builder.Services.AddMediatR(typeof(Program));
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

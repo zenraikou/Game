@@ -1,5 +1,6 @@
 ### Replace 'placeholder' with an existing GUID
-@guid = placeholder
+# Open GETALL.rest file to request list of items
+@id = placeholder
 
 ### Base URL
 @host = http://localhost:5000
@@ -8,4 +9,4 @@
 # 500 Internal Server Error
 # 404 Not Found
 # 200 OK
-GET {{host}}/api/item/{{guid}}
+GET {{host}}/api/item/{{id}}

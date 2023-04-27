@@ -1,4 +1,4 @@
-﻿namespace Game.API.Data.IRepository;
+﻿namespace Game.API.Persistence.IRepository;
 
 public interface IUnitOfWork /*: IDisposable*/
 {

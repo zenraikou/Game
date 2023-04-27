@@ -1,5 +1,6 @@
 ### Replace 'placeholder' with an existing GUID
-@guid = placeholder
+# Open GETALL.rest file to request list of items
+@id = placeholder
 
 ### Base URL
 @host = http://localhost:5000
@@ -8,7 +9,7 @@
 # 500 Internal Server Error
 # 404 Not Found
 # 204 No Content
-PATCH {{host}}/api/item/{{guid}}
+PATCH {{host}}/api/item/{{id}}
 Content-Type: application/json
 
 [
@@ -42,7 +43,7 @@ Content-Type: application/json
 ### Documented Response
 # 500 Internal Server Error
 # 400 Bad Request
-PATCH {{host}}/api/item/{{guid}}
+PATCH {{host}}/api/item/{{id}}
 Content-Type: application/json
 
 [

@@ -6,12 +6,12 @@ using Type = Game.API.Models.Enums.Type;
 
 namespace Game.API.Validators;
 
-public class PostItemRequestValidator : AbstractValidator<PostItemRequest>
+public class UpsertItemRequestValidator: AbstractValidator<UpsertItemRequest>
 {
-    public PostItemRequestValidator()
+    public UpsertItemRequestValidator()
     {
         RuleFor(i => i.Name)
-            .Length(1, 12)
+            .Length(1, 30)
             .WithMessage("'{PropertyName}' must not be empty and limited to 12 characters.");
 
         RuleFor(i => i.Description)

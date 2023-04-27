@@ -1,7 +1,7 @@
-﻿using Game.API.Data.IRepository;
-using Game.API.Models;
+﻿using Game.API.Models;
+using Game.API.Persistence.IRepository;
 
-namespace Game.API.Data.Repository;
+namespace Game.API.Persistence.Repository;
 
 public class ItemRepository : Repository<Item>, IItemRepository
 {

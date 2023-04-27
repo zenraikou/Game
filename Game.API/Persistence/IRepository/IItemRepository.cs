@@ -1,6 +1,6 @@
 ﻿using Game.API.Models;
 
-namespace Game.API.Data.IRepository;
+namespace Game.API.Persistence.IRepository;
 
 public interface IItemRepository : IRepository<Item>
 {

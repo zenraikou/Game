@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
 namespace Game.API.Migrations
 {
@@ -32,10 +35,10 @@ namespace Game.API.Migrations
                 columns: new[] { "Id", "Description", "Element", "Name", "Price", "Timestamp", "Type" },
                 values: new object[,]
                 {
-                    { new Guid("53f528af-1f82-4e37-9876-7f25cf2f7481"), "A bow crafted from the wing of a Pure Silver Dragon.", 4, "Buriza", 2.99m, new DateTime(2023, 4, 20, 7, 40, 23, 623, DateTimeKind.Utc).AddTicks(6135), 2 },
-                    { new Guid("64e7c953-87cb-4ec0-9adc-a6aa145a099b"), "A dagger crafted from the tooth of a Pure Silver Dragon.", 4, "Dagon", 0.99m, new DateTime(2023, 4, 20, 7, 40, 23, 623, DateTimeKind.Utc).AddTicks(6103), 0 },
-                    { new Guid("c2f90f2b-8568-4fb6-8c2c-7488a00b7681"), "A shield crafted from the scales of a Pure Silver Dragon.", 4, "Vanguard", 3.99m, new DateTime(2023, 4, 20, 7, 40, 23, 623, DateTimeKind.Utc).AddTicks(6140), 3 },
-                    { new Guid("f9447fa9-2d85-4a78-bcc3-c4b4f28d1e6e"), "A sword crafted from the talon of a Pure Silver Dragon.", 4, "Yasha", 1.99m, new DateTime(2023, 4, 20, 7, 40, 23, 623, DateTimeKind.Utc).AddTicks(6127), 1 }
+                    { new Guid("7b7c7de0-9d9e-4027-acf8-78e27f766ed4"), "A bow crafted from the wing of a Pure Silver Dragon.", 4, "Buriza", 2.99m, new DateTime(2023, 4, 27, 8, 3, 36, 909, DateTimeKind.Utc).AddTicks(2069), 2 },
+                    { new Guid("86f6123a-2597-4a40-8e03-7f6c34c9a372"), "A sword crafted from the talon of a Pure Silver Dragon.", 4, "Yasha", 1.99m, new DateTime(2023, 4, 27, 8, 3, 36, 909, DateTimeKind.Utc).AddTicks(2060), 1 },
+                    { new Guid("8cbd15b2-85b6-4acb-9d19-7ad7e3730a06"), "A shield crafted from the scales of a Pure Silver Dragon.", 4, "Vanguard", 3.99m, new DateTime(2023, 4, 27, 8, 3, 36, 909, DateTimeKind.Utc).AddTicks(2076), 3 },
+                    { new Guid("ae7150c1-98f9-4c16-8100-bd1de8259302"), "A dagger crafted from the tooth of a Pure Silver Dragon.", 4, "Dagon", 0.99m, new DateTime(2023, 4, 27, 8, 3, 36, 909, DateTimeKind.Utc).AddTicks(2031), 0 }
                 });
         }
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Type = Game.API.Models.Enums.Type;
 
-namespace Game.API.Data;
+namespace Game.API.Persistence;
 
 public class GameContext : DbContext
 {

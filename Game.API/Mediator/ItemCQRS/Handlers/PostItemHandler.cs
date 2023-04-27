@@ -1,9 +1,9 @@
-﻿using Game.API.Data.Commands;
-using Game.API.Data.IRepository;
+﻿using Game.API.Mediator.ItemCQRS.Commands;
 using Game.API.Models;
+using Game.API.Persistence.IRepository;
 using MediatR;
 
-namespace Game.API.Data.Handlers;
+namespace Game.API.Mediator.ItemCQRS.Handlers;
 
 public class PostItemHandler : IRequestHandler<PostItemCommand, Item>
 {

@@ -1,6 +1,6 @@
 ﻿using Game.API.Models;
 using MediatR;
 
-namespace Game.API.Data.Queries;
+namespace Game.API.Mediator.ItemCQRS.Queries;
 
 public record GetItemsQuery : IRequest<List<Item>>;

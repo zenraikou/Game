@@ -1,8 +1,8 @@
-﻿using Game.API.Data.IRepository;
+﻿using Game.API.Persistence.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Game.API.Data.Repository;
+namespace Game.API.Persistence.Repository;
 
 public class Repository<T> : IRepository<T> where T : class
 {

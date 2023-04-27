@@ -5,7 +5,7 @@ using Type = Game.API.Models.Enums.Type;
 
 namespace Game.API.Contracts.Item;
 
-public record UpdateItemRequest
+public record GetItemResponse
 {
     [AdaptIgnore(MemberSide.Source)]
     public Guid Id { get; private init; }
