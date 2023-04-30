@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 namespace Game.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/[controller]")] /* URL: {host}/api/item */
 public class ItemController : ControllerBase
 {
     private readonly ILogger<ItemController> _logger;
