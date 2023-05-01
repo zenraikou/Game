@@ -4,7 +4,7 @@ using Type = Game.API.Models.Enums.Type;
 
 namespace Game.API.Models;
 
-public class Item
+public record Item
 {
     public Guid Id { get; private init; } = Guid.NewGuid();
     public required string Name { get; set; }
